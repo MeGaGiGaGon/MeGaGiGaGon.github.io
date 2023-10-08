@@ -55,6 +55,9 @@
                 } else {
                     elem = []
                 }
+                if (elem == undefined) {
+                    alert("formatting error in " + tag)
+                }
                 for (item of elem) {
                     output.push({
                         "name": item.name,
