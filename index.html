@@ -1,5 +1,77 @@
 <body>
-  <p>
-    test
-  </p>
+    <table>
+        <tbody>
+            <tr>
+                <td><label>lootrun</label></td>
+                <td><input id="lootrun"></td>
+                <td><label>color</label></td>
+                <td><input id="lootrun_color" value="#ffffff"></td>
+                <td><label>icon</label></td>
+                <td><input id="lootrun_icon" value="flag"></td>
+            </tr>
+            <tr>
+                <td><label>npc</label></td>
+                <td><input id="npc"></td>
+                <td><label>color</label></td>
+                <td><input id="npc_color" value="#00ffff"></td>
+                <td><label>icon</label></td>
+                <td><input id="npc_icon" value="flag"></td>
+            </tr>
+            <tr>
+                <td><label>node</label></td>
+                <td><input id="node"></td>
+                <td><label>color</label></td>
+                <td><input id="node_color" value="#ff00ff"></td>
+                <td><label>icon</label></td>
+                <td><input id="node_icon" value="flag"></td>
+            </tr>
+            <tr>
+                <td><label>station</label></td>
+                <td><input id="station"></td>
+                <td><label>color</label></td>
+                <td><input id="station_color" value="#ffff00"></td>
+                <td><label>icon</label></td>
+                <td><input id="station_icon" value="flag"></td>
+            </tr>
+            <tr>
+                <td><button onclick="generate()">Generate</button></td>
+            </tr>
+            <tr>
+                <td><label>result</label></td>
+                <td><input id="result"></td>
+                <td><button onclick="copy()">Copy to clipboard</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        function generate() {
+            output = []
+            for (tag of ["lootrun", "npc", "node", "station"]) {
+                elem = document.getElementById(tag).value
+                color = document.getElementById(tag + "_color").value
+                icon = document.getElementById(tag + "_icon").value
+                if (elem != "") {
+                    elem = JSON.parse(elem).version204Release2
+                } else {
+                    elem = []
+                }
+                for (item of elem) {
+                    output.push({
+                        "name": item.name,
+                        "color": color,
+                        "icon": icon,
+                        "visibility": "always",
+                        "location": item.location
+                    })
+                }
+            }
+            document.getElementById("result").value = JSON.stringify(output)
+        }
+        function copy() {
+            text = document.getElementById("result")
+            text.select()
+            text.setSelectionRange(0, 999999999)
+            navigator.clipboard.writeText(text.value).then(x => alert("copied"))
+        }
+    </script>
 </body>
